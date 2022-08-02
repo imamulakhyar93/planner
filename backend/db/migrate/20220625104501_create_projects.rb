@@ -4,6 +4,7 @@ class CreateProjects < ActiveRecord::Migration[7.0]
   def change
     create_table :projects do |t|
       t.string :name
+      t.string :slug
       t.string :icon
       t.text :description
       t.references :user, null: false, foreign_key: true
@@ -11,5 +12,6 @@ class CreateProjects < ActiveRecord::Migration[7.0]
       t.timestamps
     end
     add_index :projects, %i[user_id name], unique: true
+    add_index :projects, %i[user_id slug], unique: true
   end
 end

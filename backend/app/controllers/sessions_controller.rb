@@ -4,7 +4,8 @@ class SessionsController < ApplicationController
   def create
     user = User.find_by_email(login_params[:email])
     if user&.authenticate(login_params[:password])
-      payload = { user_id: user.id }
+      exp = (Time.now + 1.day).to_i
+      payload = { user_id: user.id, exp: }
       token = JWT.encode payload, nil, 'none'
       return render json: { token: }
     end

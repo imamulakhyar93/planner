@@ -1,14 +1,13 @@
 # frozen_string_literal: true
 
 class ProjectsController < ApplicationController
-  before_action :authenticate_user!, only: %i[create update destroy]
+  before_action :authenticate_user!
+  # before_action :authenticate_user!, only: %i[create update destroy]
   before_action :set_project, only: %i[show update destroy]
 
   # GET /projects
   def index
-    @projects = Project.all
-
-    render json: @projects
+    render json: current_user.projects
   end
 
   # GET /projects/:id
@@ -45,7 +44,7 @@ class ProjectsController < ApplicationController
 
   # Use callbacks to share common setup or constraints between actions.
   def set_project
-    @project = Project.find_by_friendly_id(params[:id])
+    @project = current_user.projects.find_by_friendly_id(params[:id])
   end
 
   # Only allow a list of trusted parameters through.

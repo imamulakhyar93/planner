@@ -21,3 +21,7 @@
 
 # Ignore master key for decrypting credentials and more.
 /config/master.key
+
+# Ignore specific files which related to the local of development
+.byebug_history
+.zsh_history

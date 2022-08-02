@@ -10,26 +10,27 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2022_07_19_010350) do
+ActiveRecord::Schema[7.0].define(version: 2022_06_25_110106) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
   create_table "projects", force: :cascade do |t|
     t.string "name"
+    t.string "slug"
     t.string "icon"
     t.text "description"
     t.bigint "user_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.string "slug"
-    t.index ["slug"], name: "index_projects_on_slug", unique: true
     t.index ["user_id", "name"], name: "index_projects_on_user_id_and_name", unique: true
+    t.index ["user_id", "slug"], name: "index_projects_on_user_id_and_slug", unique: true
     t.index ["user_id"], name: "index_projects_on_user_id"
   end
 
   create_table "tasks", force: :cascade do |t|
     t.string "name"
     t.text "description"
+    t.string "slug"
     t.bigint "project_id", null: false
     t.bigint "user_id", null: false
     t.string "status"
@@ -38,9 +39,8 @@ ActiveRecord::Schema[7.0].define(version: 2022_07_19_010350) do
     t.datetime "completed_at", precision: nil
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.string "slug"
+    t.index ["project_id", "slug"], name: "index_tasks_on_project_id_and_slug", unique: true
     t.index ["project_id"], name: "index_tasks_on_project_id"
-    t.index ["slug"], name: "index_tasks_on_slug", unique: true
     t.index ["user_id"], name: "index_tasks_on_user_id"
   end
 
